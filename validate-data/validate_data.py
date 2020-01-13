@@ -100,9 +100,10 @@ def validate_str(value=None, min_length=None, max_length=None, required=True, na
 if __name__ == '__main__':
 
 	print('int:')
-	print(validate_int(10, 1, 100, True, 'cislo'))
-	print(validate_int('10'))
-	print(validate_int('xxx', name='cislo'))
+	print('-ok :', validate_int(10, 1, 100, True, 'numbername'))
+	print('-ok :', validate_int('10'))
+	print('-err:', validate_int('xxx', name='numbername'))
 
+	print()
 	print('str:')
-	print(validate_str('aaa', 1, 10, True))
+	print('-ok :', validate_str('aaa', 1, 10, True,'stringname'))
