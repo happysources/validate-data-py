@@ -55,6 +55,9 @@ def validate_int(value=None, min_value=None, max_value=None, required=True, name
 
 	name_str = __name(name)
 
+	if not value and not required:
+		return False
+
 	if not value and required:
 		raise TypeError(('{name_str} expected int, interger must be input').format(\
 			name_str=name_str))
@@ -83,6 +86,9 @@ def validate_str(value=None, min_length=None, max_length=None, required=True, na
 
 	name_str = __name(name)
 
+	if not value and not required:
+		return False
+
 	if not value and required:
 		raise TypeError(('{name_str} expected str, string must be input').format(\
 			name_str=name_str))
@@ -103,7 +109,12 @@ if __name__ == '__main__':
 	print('-ok :', validate_int(10, 1, 100, True, 'numbername'))
 	print('-ok :', validate_int('10'))
 	print('-err:', validate_int('xxx', name='numbername'))
+	#print('-err:', validate_int(None, 1, 10, True, name='numbernone'))
+	print('-err:', validate_int(None, 1, 10, False, name='numbernone'))
+	print('-ok :', validate_int(10, 1, 10, False, name='numbernone'))
 
 	print()
 	print('str:')
 	print('-ok :', validate_str('aaa', 1, 10, True,'stringname'))
+	#print('-err:', validate_str(None, 1, 10, True,'stringnone'))
+	print('-ok :', validate_str(None, 1, 10, False,'stringnone'))
