@@ -115,6 +115,6 @@ if __name__ == '__main__':
 
 	print()
 	print('str:')
-	print('-ok :', validate_str('aaa', 1, 10, True,'stringname'))
-	#print('-err:', validate_str(None, 1, 10, True,'stringnone'))
-	print('-ok :', validate_str(None, 1, 10, False,'stringnone'))
+	print('-ok :', validate_str('aaa', 1, 10, True, 'stringname'))
+	#print('-err:', validate_str(None, 1, 10, True, 'stringnone'))
+	print('-ok :', validate_str(None, 1, 10, False, 'stringnone'))
