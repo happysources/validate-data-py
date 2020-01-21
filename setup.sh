@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GIT_OWNER="https://github.com/happysources"
-GIT_REPO="response-api-py"
+GIT_REPO="validate-data-py"
 
 TMP_DIR="/tmp/${GIT_REPO}"
 INST_DIR="/usr/local/lib/python3/dist-packages/"
