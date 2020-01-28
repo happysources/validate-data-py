@@ -66,7 +66,7 @@ def validate_int(value=None, min_value=None, max_value=None, required=True, name
 	try:
 		int(value)
 	except ValueError as val_err:
-		return TypeError(('{name_str} expected int, {value_error}').format(\
+		raise TypeError(('{name_str} expected int, {value_error}').format(\
 			name_str=name_str, value_error=val_err))
 
 	__min_value(value, min_value, name_str)
