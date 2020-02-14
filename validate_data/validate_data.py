@@ -64,7 +64,7 @@ def validate_int(value=None, min_value=None, max_value=None, required=True, name
 
 	# convect str->int?
 	try:
-		int(value)
+		value = int(value)
 	except ValueError as val_err:
 		raise TypeError(('{name_str} expected int, {value_error}').format(\
 			name_str=name_str, value_error=val_err))
@@ -106,15 +106,15 @@ def validate_str(value=None, min_length=None, max_length=None, required=True, na
 if __name__ == '__main__':
 
 	print('int:')
-	print('-ok :', validate_int(10, 1, 100, True, 'numbername'))
-	print('-ok :', validate_int('10'))
-	print('-err:', validate_int('xxx', name='numbername'))
+	print('-ok : 10', validate_int(10, 1, 100, True, 'numbername'))
+	print('-ok : 10', validate_int('10'))
+	#print('-err: xxx', validate_int('xxx', name='numbername'))
 	#print('-err:', validate_int(None, 1, 10, True, name='numbernone'))
-	print('-err:', validate_int(None, 1, 10, False, name='numbernone'))
-	print('-ok :', validate_int(10, 1, 10, False, name='numbernone'))
+	print('-err: None', validate_int(None, 1, 10, False, name='numbernone'))
+	print('-ok : 10', validate_int(10, 1, 10, False, name='numbernone'))
 
 	print()
 	print('str:')
-	print('-ok :', validate_str('aaa', 1, 10, True, 'stringname'))
+	print('-ok : aaa', validate_str('aaa', 1, 10, True, 'stringname'))
 	#print('-err:', validate_str(None, 1, 10, True, 'stringnone'))
-	print('-ok :', validate_str(None, 1, 10, False, 'stringnone'))
+	print('-ok : None', validate_str(None, 1, 10, False, 'stringnone'))
