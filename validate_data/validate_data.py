@@ -6,6 +6,8 @@ Validate function
 """
 
 import six
+from logni import log
+
 
 def __name(name=None):
 	""" name value """
@@ -103,6 +105,81 @@ def validate_str(value=None, min_length=None, max_length=None, required=True, na
 	return True
 
 
+def validate_email(value, required=True, name=None):
+	""" validate email """
+
+	ret = validate_str(value, 6, 100, required, name)
+	if not ret:
+		return False
+
+	if not value:
+		return ret
+
+	name_str = __name(name)
+	emails = value.split('@')
+	if len(emails) != 1:	
+		log.error('%s must be a format name@domain.tld', (name_str,), priority=2)
+		return False
+
+	domains = emails[1].split('.')
+	if len(domains[-1]) < 2:
+		log.error('%s must be a format name@domain.tld', (name_str,), priority=2)
+		return False
+
+	return True
+
+
+def validate_ip(value, required=True, name=None):
+	""" validate ip address """
+
+	name_str = __name(name)
+	log.debug('ip %s value=%s, required=%s', (name_str, value, required))
+
+	ret = validate_str(value, 7, 15, required, name)
+	if not ret:
+		return False
+
+	if not value:
+		return ret
+
+	ips = value.split('.')
+	if len(ips) != 4:
+		log.error('%s must be a format 0.0.0.0', (name_str,), priority=2)
+		return False
+
+	for ip in ips:
+		if not validate_int(ip, 1, 255, True, 'ip'):
+			return False
+
+	return True
+
+
+def validate_array(value, arr, required=True, name=None):
+	""" validate for array/tuple """
+
+	name_str = __name(name)
+	log.debug('array %s %s in %s, required=%s', (name_str, value, arr, required))
+
+	if arr:	
+		if type(value) not in (type([]), type(())):
+			value = (value,)
+
+		for value1 in value:
+			if value1 not in arr:
+				log.error('array %s=%s not in %s', (name, value1, arr), priority=1)
+				raise ValueError(('{name} value out of array').format(name=name_str))
+
+			elif value1 in arr:
+				continue
+
+	if type(value) in (type([]), type(())):
+		return True
+
+	log.error('array %s=%s must be a array', (name, value), priority=1)
+	raise ValueError(('{name} must be a array').format(name=name_str))
+
+
+
 if __name__ == '__main__':
 
 	print('int:')
@@ -118,3 +195,13 @@ if __name__ == '__main__':
 	print('-ok : aaa', validate_str('aaa', 1, 10, True, 'stringname'))
 	#print('-err:', validate_str(None, 1, 10, True, 'stringnone'))
 	print('-ok : None', validate_str(None, 1, 10, False, 'stringnone'))
+
+	print()
+	print('ip:')
+	print('-ok : 1.2.3.4', validate_ip('1.2.3.4', True, 'ip'))
+	print('-err: 11.222.33', validate_ip('11.222.33', True, 'ip'))
+
+	print()
+	print('email:')
+	print('-ok : email@domain.tld', validate_email('email@domain.tld'))
+	print('-err: email@domain.x', validate_email('email@domain.x'))
