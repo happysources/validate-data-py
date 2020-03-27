@@ -57,8 +57,9 @@ def validate_int(value=None, min_value=None, max_value=None, required=True, name
 
 	name_str = __name(name)
 
+	# no input / no required
 	if not value and not required:
-		return False
+		return True
 
 	if not value and required:
 		raise TypeError(('{name_str} expected int, interger must be input').format(\
@@ -88,8 +89,9 @@ def validate_str(value=None, min_length=None, max_length=None, required=True, na
 
 	name_str = __name(name)
 
+	# no input / no required
 	if not value and not required:
-		return False
+		return True
 
 	if not value and required:
 		raise TypeError(('{name_str} expected str, string must be input').format(\
@@ -160,6 +162,10 @@ def validate_array(value, arr, required=True, name=None):
 	name_str = __name(name)
 	log.debug('array %s %s in %s, required=%s', (name_str, value, arr, required))
 
+	# no input / no required
+	if not value and not required:
+		return True
+
 	if arr:	
 		if type(value) not in (type([]), type(())):
 			value = (value,)
@@ -205,3 +211,10 @@ if __name__ == '__main__':
 	print('email:')
 	print('-ok : email@domain.tld', validate_email('email@domain.tld'))
 	print('-err: email@domain.x', validate_email('email@domain.x'))
+
+	print()
+	print('array:')
+	print('-ok : sell in (sell, rent)', validate_array('sell', ['sell', 'rent'], True, 'arr'))
+	print('-ok : sell in (sell, rent)', validate_array('sell', ['sell', 'rent'], False, 'arr'))
+	print('-ok : None in (sell, rent)', validate_array(None, ['sell', 'rent'], False, 'arr'))
+	print('-err: selx in (sell, rent)', validate_array('selx', ['sell', 'rent'], True, 'arr'))
