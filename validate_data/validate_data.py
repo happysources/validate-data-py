@@ -119,7 +119,7 @@ def validate_email(value, required=True, name=None):
 
 	name_str = __name(name)
 	emails = value.split('@')
-	if len(emails) != 1:	
+	if len(emails) != 2:
 		log.error('%s must be a format name@domain.tld', (name_str,), priority=2)
 		return False
 
